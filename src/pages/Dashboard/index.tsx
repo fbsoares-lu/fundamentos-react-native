@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import FeatherIcon from 'react-native-vector-icons/Feather';
+import AsyncStorage from '@react-native-community/async-storage';
 
 import { View, Image } from 'react-native';
 
@@ -35,11 +36,13 @@ const Dashboard: React.FC = () => {
 
   useEffect(() => {
     async function loadProducts(): Promise<void> {
-      // TODO
+      await api
+        .get('/products')
+        .then(response => setProducts([...products, response.data]));
     }
 
     loadProducts();
-  }, []);
+  }, [products]);
 
   function handleAddToCart(item: Product): void {
     // TODO
